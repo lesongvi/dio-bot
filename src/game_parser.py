@@ -37,6 +37,7 @@ class ScreenCapture:
         rect = self.get_rect()
         if rect == None:
             return None
+        rect = tuple(map(int, rect))
         #Grab image
         pil_img = ImageGrab.grab(rect)
         #Convert to numpy array
@@ -161,7 +162,7 @@ class TrackedObjects:
     def init(self, frame):
         for obj in self.objects:
             #Make new tracker
-            new_tracker = cv2.TrackerMOSSE_create()
+            new_tracker = cv2.legacy.TrackerMOSSE_create()
             #Initialise tracker and make buffer for object bbox
             new_tracker.init(frame, BBoxOps.make_buffer(obj.bbox
                 ,self.tracking_buffer))
@@ -190,7 +191,7 @@ class TrackedObjects:
                 if new_obj:
                     self.objects[i] = new_obj
                     self.objects[i].is_tracked = True
-                    self.trackers[i] = cv2.TrackerMOSSE_create()
+                    self.trackers[i] = cv2.legacy.TrackerMOSSE_create()
                     self.trackers[i].init(frame
                         , BBoxOps.make_buffer(new_obj.bbox,self.tracking_buffer))
                 else:
