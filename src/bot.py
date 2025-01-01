@@ -5,7 +5,7 @@ from game_parser import GameParser
 from game_parser import *
 from controller import *
 from config import *
-from pynput import keyboard, mouse
+from pynput import keyboard
 from environment import *
 from behavior import *
 from render import *
@@ -85,9 +85,9 @@ class Bot:
     def play(self):
         # print(HELP_MSG)
         #Make video writere
-        output_video = cv2.VideoWriter('output.avi'
-            ,cv2.VideoWriter_fourcc('M','J','P','G'), 10
-            , CAPTURE_SIZE)
+        # output_video = cv2.VideoWriter('output.avi'
+        #     ,cv2.VideoWriter_fourcc('M','J','P','G'), 10
+        #     , CAPTURE_SIZE)
         while self.playing:
             #Get the current game frame
             frame = self.screen_cap.get_frame()
@@ -104,13 +104,13 @@ class Bot:
 
             self.game_parser.reset()
 
-            output_video.write(frame)
+            # output_video.write(frame)
 
             #Check if the bot is paused
             self.check_if_paused()
 
         print(f"Average fps {self.render.get_average_fps()}")
-        output_video.release()
+        # output_video.release()
         #Close all windows
         cv2.destroyAllWindows()
         print("Bot has shutdown. Goodbye.")
