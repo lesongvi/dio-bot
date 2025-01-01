@@ -2,7 +2,6 @@
 This file has the all the environment specific classes
 """
 import math
-import cv2
 
 """Every game object is stored in this"""
 class GameObject:
@@ -19,6 +18,9 @@ class GameObject:
         self.distance = distance
         #Stores whether the game object has still been tracked
         self.is_tracked = False
+
+    def __str__(self):
+        return f"GameObject({self.type}, {self.bbox})"
 
     @property
     def centre(self):
