@@ -53,7 +53,13 @@ class BotController:
             elif self.move_direction.y < math.sin(math.pi / -8):
                 self.keyboard.press('w')
                 self.pressed_keys['w'] = True
-    
+
+    """Stop moving"""
+    def stop_moving(self):
+        for key in self.pressed_keys:
+            self.keyboard.release(key)
+        self.pressed_keys = {}
+
     """
     Shoot in a given direction. If player_pos is passed in
     it will shoot with greater accuracy

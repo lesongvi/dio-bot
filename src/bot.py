@@ -75,6 +75,7 @@ class Bot:
         #Pause loop
         if self.paused:
             print("Bot has been paused. Press 'p' to resume")
+            self.control.stop_moving()
             while self.paused and self.playing:
                 pass
             print("Bot has been unpaused.")
@@ -82,11 +83,11 @@ class Bot:
 
     """Lets the bot play"""
     def play(self):
-        print(HELP_MSG)
+        # print(HELP_MSG)
         #Make video writere
-        # output_video = cv2.VideoWriter('output.avi'
-        #     ,cv2.VideoWriter_fourcc('M','J','P','G'), 10
-        #     , CAPTURE_SIZE)
+        output_video = cv2.VideoWriter('output.avi'
+            ,cv2.VideoWriter_fourcc('M','J','P','G'), 10
+            , CAPTURE_SIZE)
         while self.playing:
             #Get the current game frame
             frame = self.screen_cap.get_frame()
@@ -101,13 +102,15 @@ class Bot:
             if self.display_view:
                self.render.render_view(frame, self.environment)
 
-            #output_video.write(frame)
+            self.game_parser.reset()
+
+            output_video.write(frame)
 
             #Check if the bot is paused
             self.check_if_paused()
 
         print(f"Average fps {self.render.get_average_fps()}")
-        #output_video.release()
+        output_video.release()
         #Close all windows
         cv2.destroyAllWindows()
         print("Bot has shutdown. Goodbye.")

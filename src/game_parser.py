@@ -81,7 +81,7 @@ class ObjectClassifier:
         GameObject.ENEMY : (84,78,241),
         GameObject.PENTAGON : (251,140,118),
         GameObject.SQUARE : (105,232,255),
-        GameObject.TRIANGLE : (119,117,243)
+        GameObject.TRIANGLE : (245,140,122)
     }
     """Detect the object given its contour and colour"""
     def classify(self, contour, colour):
@@ -102,7 +102,7 @@ class ObjectClassifier:
             pent_dist = self.get_colour_distance(
                 ObjectClassifier.OBJECT_COLOURS[GameObject.PENTAGON],
                 colour)
-            
+
             enemy_dist = self.get_colour_distance(
                 ObjectClassifier.OBJECT_COLOURS[GameObject.ENEMY],
                 colour)
@@ -145,9 +145,9 @@ class ObjectClassifier:
     
     """Returns the colour distance between two colours"""
     def get_colour_distance(self, colour1, colour2):
-        b = colour1[0] - colour2[0]
-        g = colour1[1] - colour2[1]
-        r = colour1[2] - colour2[2]
+        b = int(colour1[0]) - int(colour2[0])
+        g = int(colour1[1]) - int(colour2[1])
+        r = int(colour1[2]) - int(colour2[2])
         return b * b + g * g + r * r
 
 
@@ -249,10 +249,10 @@ class DetectionAlgorithm:
             #Check if limit has been reached
             if not object_limit is None and num_detected >= object_limit:
                 break
-            
+
             #Get object bbox
             o_bbox = cv2.boundingRect(contour)
-            
+
             #apply origin offset and buffer
             shifted_o_bbox = (o_bbox[0] + origin[0]
                 , o_bbox[1] + origin[1], o_bbox[2], o_bbox[3])
@@ -264,7 +264,7 @@ class DetectionAlgorithm:
             #Skip if the object is too small
             if cv2.contourArea(contour) < MIN_OBJECT_AREA:
                 continue
-            
+
             #Detect object centre colour by moments
             M = cv2.moments(contour)
             cX = int(M["m10"] / M["m00"])
@@ -335,3 +335,8 @@ class GameParser:
         if self.detect_rate > 0:
             self.frames_passed = (self.frames_passed + 1) % self.detect_rate
         return self.tracked_objects
+
+    # reset the parser
+    def reset(self):
+        self.tracked_objects = None
+        self.frames_passed = 0

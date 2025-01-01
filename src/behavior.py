@@ -82,6 +82,9 @@ class TargetState(State):
         #Sort the neighbours based on importance
         objects = self.sort_alg.sort(object_importances)
 
+        #Omnivore
+        # objects = [(o, 0) for o in environment.objects]
+
         if len(objects) == 0:
             return None
         #Get the most important object as the target
@@ -109,7 +112,7 @@ class TargetState(State):
         if target is None:
             self.state_machine.curr_state = ExploreState(self.state_machine)
             return
-        
+
         #Render of frame if passed in
         if not frame is None:
             BotRender.draw_rect(target.bbox, frame, color=(0,0,255))
