@@ -9,7 +9,7 @@
 // @grant        none
 // ==/UserScript==
 
-const preConfigName = "SongVi";
+const preConfigName = "SongVĩ.Bot";
 let state = "";
 
 function handleMenuState() {
